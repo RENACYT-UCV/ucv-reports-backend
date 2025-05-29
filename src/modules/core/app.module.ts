@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { databaseConfig } from '../../config/database.config';
+import { typeOrmConfig } from '../../config/database.config';
 import { envConfig } from '../../config/env.config';
 import { UsuariosModule } from '../usuarios/usuarios.module';
 
@@ -14,7 +14,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: databaseConfig,
+      useFactory: typeOrmConfig,
     }),
     UsuariosModule,
   ],

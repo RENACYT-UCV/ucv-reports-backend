@@ -1,4 +1,4 @@
-import path from 'node:path';
+import * as path from 'node:path';
 import { TypeOrmModule, type TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 const PATH_ENTITIES = path.join(
@@ -15,9 +15,6 @@ export const typeOrmConfig: () => TypeOrmModuleOptions = () => ({
   url: process.env.DATABASE_URL,
   entities: [PATH_ENTITIES],
   synchronize: true,
-  ssl: {
-    rejectUnauthorized: false,
-  },
 });
 
 export const typeOrmModule = () => {
