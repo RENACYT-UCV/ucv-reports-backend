@@ -1,0 +1,580 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 30-08-2024 a las 02:08:14
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `proyectosolicitudweb`
+--
+CREATE DATABASE IF NOT EXISTS `proyectosolicitudweb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `proyectosolicitudweb`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `almacen`
+--
+
+DROP TABLE IF EXISTS `almacen`;
+CREATE TABLE `almacen` (
+  `id_almacen` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `stock` int(100) NOT NULL,
+  `imagenproducto` varchar(255) NOT NULL,
+  `Compra` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `almacenstockdañado`
+--
+
+DROP TABLE IF EXISTS `almacenstockdañado`;
+CREATE TABLE `almacenstockdañado` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `stocks` int(11) NOT NULL,
+  `imagenproducto` varchar(255) NOT NULL,
+  `compra` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `articulos`
+--
+
+DROP TABLE IF EXISTS `articulos`;
+CREATE TABLE `articulos` (
+  `id_articulo` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `puntaje` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `articulos_actual_uso`
+--
+
+DROP TABLE IF EXISTS `articulos_actual_uso`;
+CREATE TABLE `articulos_actual_uso` (
+  `id_articulo` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `LinkCompra` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `articulos_uso`
+--
+
+DROP TABLE IF EXISTS `articulos_uso`;
+CREATE TABLE `articulos_uso` (
+  `Id_articulo` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `Stock` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cargo`
+--
+
+DROP TABLE IF EXISTS `cargo`;
+CREATE TABLE `cargo` (
+  `idcargo` int(11) NOT NULL,
+  `descripcion` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `hardware`
+--
+
+DROP TABLE IF EXISTS `hardware`;
+CREATE TABLE `hardware` (
+  `id_hardware` int(11) NOT NULL,
+  `Codigo` varchar(15) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `Estado` varchar(50) NOT NULL DEFAULT 'Habilitado',
+  `Precio` decimal(30,0) NOT NULL,
+  `idpabellon` int(11) NOT NULL,
+  `idpiso` int(11) NOT NULL,
+  `idsalon` int(11) NOT NULL,
+  `idarticulostipo` int(11) NOT NULL,
+  `imagen` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historal_productos_dañados`
+--
+
+DROP TABLE IF EXISTS `historal_productos_dañados`;
+CREATE TABLE `historal_productos_dañados` (
+  `idhistorial` int(11) NOT NULL,
+  `idpersonal` int(11) NOT NULL,
+  `idalmacen` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cantidad_productos_malogrados` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_productos_ingresados`
+--
+
+DROP TABLE IF EXISTS `historial_productos_ingresados`;
+CREATE TABLE `historial_productos_ingresados` (
+  `idhistorial` int(11) NOT NULL,
+  `idpersonal` int(11) NOT NULL,
+  `idalmacen` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cantidad_productos_aumentados` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_productos_personal`
+--
+
+DROP TABLE IF EXISTS `historial_productos_personal`;
+CREATE TABLE `historial_productos_personal` (
+  `id_historial` int(11) NOT NULL,
+  `idpersonal` int(11) NOT NULL,
+  `idalmacen` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cantidadUsada` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_reportes`
+--
+
+DROP TABLE IF EXISTS `historial_reportes`;
+CREATE TABLE `historial_reportes` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `reporte_id` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_reporte_personal`
+--
+
+DROP TABLE IF EXISTS `historial_reporte_personal`;
+CREATE TABLE `historial_reporte_personal` (
+  `id` int(11) NOT NULL,
+  `id_reporte` int(11) NOT NULL,
+  `id_personal` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pabellon`
+--
+
+DROP TABLE IF EXISTS `pabellon`;
+CREATE TABLE `pabellon` (
+  `id` int(11) NOT NULL,
+  `Pabellon` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `piso`
+--
+
+DROP TABLE IF EXISTS `piso`;
+CREATE TABLE `piso` (
+  `id_piso` int(11) NOT NULL,
+  `numero_piso` varchar(50) NOT NULL,
+  `idpabellon` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reportes`
+--
+
+DROP TABLE IF EXISTS `reportes`;
+CREATE TABLE `reportes` (
+  `id_reporte` int(11) NOT NULL,
+  `facultad` varchar(100) NOT NULL,
+  `turno` varchar(100) NOT NULL,
+  `Pabellon` varchar(150) NOT NULL,
+  `evidencia` varchar(255) NOT NULL,
+  `descripcion` text NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` varchar(50) NOT NULL DEFAULT 'Pendiente',
+  `Piso` varchar(50) NOT NULL,
+  `Salon` varchar(50) NOT NULL,
+  `Articulos` varchar(50) NOT NULL,
+  `Motivo` varchar(255) NOT NULL DEFAULT 'En revisión...'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `salon`
+--
+
+DROP TABLE IF EXISTS `salon`;
+CREATE TABLE `salon` (
+  `id_salon` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `idpiso` int(11) NOT NULL,
+  `idpabellon` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE `usuarios` (
+  `IDUsuario` int(11) NOT NULL,
+  `nombre` varchar(75) NOT NULL,
+  `apellido_paterno` varchar(75) NOT NULL,
+  `apellido_materno` varchar(50) NOT NULL,
+  `usuario` varchar(75) NOT NULL,
+  `contraseña` varchar(75) NOT NULL,
+  `id_cargo` int(11) NOT NULL,
+  `Estado` varchar(50) NOT NULL DEFAULT 'Habilitado'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `almacen`
+--
+ALTER TABLE `almacen`
+  ADD PRIMARY KEY (`id_almacen`);
+
+--
+-- Indices de la tabla `almacenstockdañado`
+--
+ALTER TABLE `almacenstockdañado`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  ADD PRIMARY KEY (`id_articulo`);
+
+--
+-- Indices de la tabla `articulos_actual_uso`
+--
+ALTER TABLE `articulos_actual_uso`
+  ADD PRIMARY KEY (`id_articulo`);
+
+--
+-- Indices de la tabla `articulos_uso`
+--
+ALTER TABLE `articulos_uso`
+  ADD PRIMARY KEY (`Id_articulo`);
+
+--
+-- Indices de la tabla `cargo`
+--
+ALTER TABLE `cargo`
+  ADD PRIMARY KEY (`idcargo`);
+
+--
+-- Indices de la tabla `hardware`
+--
+ALTER TABLE `hardware`
+  ADD PRIMARY KEY (`id_hardware`),
+  ADD KEY `idpabellon` (`idpabellon`),
+  ADD KEY `idpiso` (`idpiso`),
+  ADD KEY `idsalon` (`idsalon`),
+  ADD KEY `idarticulostipo` (`idarticulostipo`);
+
+--
+-- Indices de la tabla `historal_productos_dañados`
+--
+ALTER TABLE `historal_productos_dañados`
+  ADD PRIMARY KEY (`idhistorial`),
+  ADD KEY `idpersonal` (`idpersonal`),
+  ADD KEY `idalmacen` (`idalmacen`);
+
+--
+-- Indices de la tabla `historial_productos_ingresados`
+--
+ALTER TABLE `historial_productos_ingresados`
+  ADD PRIMARY KEY (`idhistorial`),
+  ADD KEY `idpersonal` (`idpersonal`),
+  ADD KEY `idalmacen` (`idalmacen`);
+
+--
+-- Indices de la tabla `historial_productos_personal`
+--
+ALTER TABLE `historial_productos_personal`
+  ADD PRIMARY KEY (`id_historial`),
+  ADD KEY `idpersonal` (`idpersonal`),
+  ADD KEY `idalmacen` (`idalmacen`);
+
+--
+-- Indices de la tabla `historial_reportes`
+--
+ALTER TABLE `historial_reportes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reporte_id` (`reporte_id`),
+  ADD KEY `usuario_id` (`usuario_id`);
+
+--
+-- Indices de la tabla `historial_reporte_personal`
+--
+ALTER TABLE `historial_reporte_personal`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_reporte` (`id_reporte`),
+  ADD KEY `id_personal` (`id_personal`);
+
+--
+-- Indices de la tabla `pabellon`
+--
+ALTER TABLE `pabellon`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `piso`
+--
+ALTER TABLE `piso`
+  ADD PRIMARY KEY (`id_piso`),
+  ADD KEY `idpabellon` (`idpabellon`);
+
+--
+-- Indices de la tabla `reportes`
+--
+ALTER TABLE `reportes`
+  ADD PRIMARY KEY (`id_reporte`);
+
+--
+-- Indices de la tabla `salon`
+--
+ALTER TABLE `salon`
+  ADD PRIMARY KEY (`id_salon`),
+  ADD KEY `idpiso` (`idpiso`),
+  ADD KEY `idpabellon` (`idpabellon`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`IDUsuario`),
+  ADD UNIQUE KEY `usuario` (`usuario`),
+  ADD KEY `id_cargo` (`id_cargo`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `almacen`
+--
+ALTER TABLE `almacen`
+  MODIFY `id_almacen` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `almacenstockdañado`
+--
+ALTER TABLE `almacenstockdañado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `articulos_actual_uso`
+--
+ALTER TABLE `articulos_actual_uso`
+  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `articulos_uso`
+--
+ALTER TABLE `articulos_uso`
+  MODIFY `Id_articulo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `cargo`
+--
+ALTER TABLE `cargo`
+  MODIFY `idcargo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `hardware`
+--
+ALTER TABLE `hardware`
+  MODIFY `id_hardware` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `historal_productos_dañados`
+--
+ALTER TABLE `historal_productos_dañados`
+  MODIFY `idhistorial` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `historial_productos_ingresados`
+--
+ALTER TABLE `historial_productos_ingresados`
+  MODIFY `idhistorial` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `historial_productos_personal`
+--
+ALTER TABLE `historial_productos_personal`
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `historial_reportes`
+--
+ALTER TABLE `historial_reportes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `historial_reporte_personal`
+--
+ALTER TABLE `historial_reporte_personal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pabellon`
+--
+ALTER TABLE `pabellon`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `piso`
+--
+ALTER TABLE `piso`
+  MODIFY `id_piso` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `reportes`
+--
+ALTER TABLE `reportes`
+  MODIFY `id_reporte` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `salon`
+--
+ALTER TABLE `salon`
+  MODIFY `id_salon` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `IDUsuario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `hardware`
+--
+ALTER TABLE `hardware`
+  ADD CONSTRAINT `hardware_ibfk_1` FOREIGN KEY (`idpabellon`) REFERENCES `pabellon` (`id`),
+  ADD CONSTRAINT `hardware_ibfk_2` FOREIGN KEY (`idpiso`) REFERENCES `piso` (`id_piso`),
+  ADD CONSTRAINT `hardware_ibfk_3` FOREIGN KEY (`idsalon`) REFERENCES `salon` (`id_salon`),
+  ADD CONSTRAINT `hardware_ibfk_4` FOREIGN KEY (`idarticulostipo`) REFERENCES `articulos_actual_uso` (`id_articulo`);
+
+--
+-- Filtros para la tabla `historal_productos_dañados`
+--
+ALTER TABLE `historal_productos_dañados`
+  ADD CONSTRAINT `historal_productos_dañados_ibfk_1` FOREIGN KEY (`idpersonal`) REFERENCES `usuarios` (`IDUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `historal_productos_dañados_ibfk_2` FOREIGN KEY (`idalmacen`) REFERENCES `almacenstockdañado` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `historial_productos_ingresados`
+--
+ALTER TABLE `historial_productos_ingresados`
+  ADD CONSTRAINT `historial_productos_ingresados_ibfk_1` FOREIGN KEY (`idpersonal`) REFERENCES `usuarios` (`IDUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `historial_productos_ingresados_ibfk_2` FOREIGN KEY (`idalmacen`) REFERENCES `almacen` (`id_almacen`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `historial_productos_personal`
+--
+ALTER TABLE `historial_productos_personal`
+  ADD CONSTRAINT `historial_productos_personal_ibfk_1` FOREIGN KEY (`idpersonal`) REFERENCES `usuarios` (`IDUsuario`),
+  ADD CONSTRAINT `historial_productos_personal_ibfk_2` FOREIGN KEY (`idalmacen`) REFERENCES `almacen` (`id_almacen`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `historial_reportes`
+--
+ALTER TABLE `historial_reportes`
+  ADD CONSTRAINT `historial_reportes_ibfk_1` FOREIGN KEY (`reporte_id`) REFERENCES `reportes` (`id_reporte`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `historial_reportes_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`IDUsuario`);
+
+--
+-- Filtros para la tabla `historial_reporte_personal`
+--
+ALTER TABLE `historial_reporte_personal`
+  ADD CONSTRAINT `historial_reporte_personal_ibfk_1` FOREIGN KEY (`id_personal`) REFERENCES `usuarios` (`IDUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `historial_reporte_personal_ibfk_2` FOREIGN KEY (`id_reporte`) REFERENCES `reportes` (`id_reporte`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `piso`
+--
+ALTER TABLE `piso`
+  ADD CONSTRAINT `piso_ibfk_1` FOREIGN KEY (`idpabellon`) REFERENCES `pabellon` (`id`);
+
+--
+-- Filtros para la tabla `salon`
+--
+ALTER TABLE `salon`
+  ADD CONSTRAINT `salon_ibfk_1` FOREIGN KEY (`idpabellon`) REFERENCES `pabellon` (`id`),
+  ADD CONSTRAINT `salon_ibfk_2` FOREIGN KEY (`idpiso`) REFERENCES `piso` (`id_piso`);
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_cargo`) REFERENCES `cargo` (`idcargo`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
