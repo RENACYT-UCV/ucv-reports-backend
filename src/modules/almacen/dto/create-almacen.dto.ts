@@ -6,7 +6,7 @@ export class CreateAlmacenDto {
 
   @IsInt()
   stock: number;
-\  
+
   @IsOptional()
   @IsString()
   imagenproducto?: string;

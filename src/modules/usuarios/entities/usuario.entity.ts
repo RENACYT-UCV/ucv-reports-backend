@@ -6,10 +6,10 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { Cargo } from '../../modules/cargo/entities/cargo.entity';
-import { HistoralProductosDanados } from '../../modules/historal_productos_dañados/entities/historal_productos_dañados.entity';
+import { Cargo } from '../../cargo/entities/cargo.entity';
+import { HistoralProductosDanados } from '../../historal_productos_dañados/entities/historal_productos_dañados.entity';
 import { HistorialProductosIngresados } from '../../historial_productos_ingresados/entities/historial_productos_ingresados.entity';
-import { HistorialProductosPersonal } from '../../modules/historial_productos_personal/entities/historial_productos_personal.entity';
+import { HistorialProductosPersonal } from '../../historial_productos_personal/entities/historial_productos_personal.entity';
 import { HistorialReportes } from '../../historial_reportes/entities/historial_reportes.entity';
 import { HistorialReportePersonal } from '../../historial_reporte_personal/entities/historial_reporte_personal.entity';
 

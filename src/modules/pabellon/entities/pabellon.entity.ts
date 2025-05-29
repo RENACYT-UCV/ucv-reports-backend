@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Hardware } from '../../modules/hardware/entities/hardware.entity';
+import { Hardware } from '../../hardware/entities/hardware.entity';
 import { Piso } from '../../piso/entities/piso.entity';
 import { Salon } from '../../salon/entities/salon.entity';
 

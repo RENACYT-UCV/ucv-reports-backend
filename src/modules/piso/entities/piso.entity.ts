@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Pabellon } from '../../pabellon/entities/pabellon.entity';
-import { Hardware } from '../../modules/hardware/entities/hardware.entity';
+import { Hardware } from '../../hardware/entities/hardware.entity';
 import { Salon } from '../../salon/entities/salon.entity';
 
 @Entity('piso')

@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Piso } from '../../piso/entities/piso.entity';
 import { Pabellon } from '../../pabellon/entities/pabellon.entity';
-import { Hardware } from '../../modules/hardware/entities/hardware.entity';
+import { Hardware } from '../../hardware/entities/hardware.entity';
 
 @Entity('salon')
 export class Salon {
