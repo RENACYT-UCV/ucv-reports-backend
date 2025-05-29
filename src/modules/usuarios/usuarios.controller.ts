@@ -18,7 +18,7 @@ import { Usuario } from './entities/usuario.entity';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  @Post()
+  @Post('/add')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
     return this.usuariosService.create(createUsuarioDto);

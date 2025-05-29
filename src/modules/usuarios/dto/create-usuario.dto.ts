@@ -1,11 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  Matches,
-  Equals,
-  ValidateIf,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateUsuarioDto {
   @IsString()
@@ -28,12 +21,6 @@ export class CreateUsuarioDto {
   @IsString()
   @IsNotEmpty()
   contraseña: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ValidateIf((o) => o.contraseña)
-  @Equals('contraseña', { message: 'Las contraseñas no coinciden' })
-  verificar_contraseña: string;
 
   @IsNumber()
   @IsNotEmpty()
