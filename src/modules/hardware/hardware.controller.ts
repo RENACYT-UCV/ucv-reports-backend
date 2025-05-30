@@ -18,6 +18,11 @@ import { CreateMultipleHardwareDto } from './dto/create-hardware.dto';
 export class HardwareController {
   constructor(private readonly hardwareService: HardwareService) {}
 
+  @Get('entrada-productos')
+  async obtenerEntradaProductos() {
+    return this.hardwareService.obtenerEntradaProductos();
+  }
+
   @Get(':id')
   async getHardwareById(
     @Param('id', ParseIntPipe) id: number,

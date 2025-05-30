@@ -173,4 +173,48 @@ export class HardwareService {
       .andWhere("h.Estado = 'Descompuesto'")
       .getRawMany();
   }
+
+  async obtenerEntradaProductos() {
+    const productos = await this.hardwareRepository
+      .createQueryBuilder('h')
+      .select([
+        'h.id_hardware',
+        'h.Codigo',
+        'h.nombre',
+        'h.Estado',
+        'h.Precio',
+        'h.imagen',
+        'h.idarticulostipo',
+        'a.id_articulo',
+        'a.nombre AS tipo_articulo',
+        'a.LinkCompra',
+      ])
+      .innerJoin(
+        'articulos_actual_uso',
+        'a',
+        'h.idarticulostipo = a.id_articulo',
+      )
+      .where("h.Estado = 'Pendiente'")
+      .getRawMany();
+
+    // Agrupar por tipo de artículo
+    const productosPorTipo: Record<number, any> = {};
+    for (const row of productos) {
+      const id_articulo_tipo = row['h_idarticulostipo'];
+      if (!productosPorTipo[id_articulo_tipo]) {
+        productosPorTipo[id_articulo_tipo] = {
+          nombre: row['a_nombre'],
+          cantidad: 0,
+          representacion: null,
+          link_compra: row['a_LinkCompra'],
+        };
+      }
+      productosPorTipo[id_articulo_tipo].cantidad++;
+      if (!productosPorTipo[id_articulo_tipo].representacion) {
+        productosPorTipo[id_articulo_tipo].representacion = row;
+      }
+    }
+    // Convertir a array para respuesta
+    return Object.values(productosPorTipo);
+  }
 }
