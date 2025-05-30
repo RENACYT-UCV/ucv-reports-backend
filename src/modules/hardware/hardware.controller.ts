@@ -6,10 +6,13 @@ import {
   Patch,
   Post,
   Body,
+  Put,
 } from '@nestjs/common';
 import { HardwareService } from './hardware.service';
 import { Hardware } from './entities/hardware.entity';
 import { CreateHardwareDto } from './dto/create-hardware.dto';
+import { UpdateHardwareLocationDto } from './dto/update-hardware.dto';
+import { CreateMultipleHardwareDto } from './dto/create-hardware.dto';
 
 @Controller('hardware')
 export class HardwareController {
@@ -46,5 +49,37 @@ export class HardwareController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<Hardware> {
     return this.hardwareService.marcarComoDescompuesto(id);
+  }
+
+  @Put(':id/ubicacion')
+  async actualizarUbicacion(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateHardwareLocationDto: UpdateHardwareLocationDto,
+  ): Promise<Hardware> {
+    return this.hardwareService.actualizarUbicacion(
+      id,
+      updateHardwareLocationDto,
+    );
+  }
+
+  @Post('multiple')
+  async createMultipleHardware(
+    @Body() createMultipleHardwareDto: CreateMultipleHardwareDto,
+  ): Promise<Hardware[]> {
+    return this.hardwareService.createMultiple(createMultipleHardwareDto);
+  }
+
+  @Get('latest-code/:id_articulo')
+  async getLatestCode(
+    @Param('id_articulo', ParseIntPipe) id_articulo: number,
+  ): Promise<{ codigo: string }> {
+    return this.hardwareService.getLatestCode(id_articulo);
+  }
+
+  @Get('descompuesto/:idArticuloTipo')
+  async mostrarTablaArticulos(
+    @Param('idArticuloTipo', ParseIntPipe) idArticuloTipo: number,
+  ): Promise<Hardware[]> {
+    return this.hardwareService.mostrarTablaArticulos(idArticuloTipo);
   }
 }

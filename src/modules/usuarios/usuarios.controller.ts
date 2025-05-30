@@ -59,4 +59,9 @@ export class UsuariosController {
   remove(@Param('id') id: string): Promise<void> {
     return this.usuariosService.remove(+id);
   }
+
+  @Get('eliminados')
+  async obtenerUsuariosEliminados(): Promise<Usuario[]> {
+    return this.usuariosService.obtenerUsuariosEliminados();
+  }
 }

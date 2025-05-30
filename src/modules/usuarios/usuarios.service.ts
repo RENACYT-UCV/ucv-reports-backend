@@ -93,4 +93,20 @@ export class UsuariosService {
     usuario.Estado = 'Habilitado';
     return this.usuarioRepository.save(usuario);
   }
+
+  async obtenerUsuariosEliminados(): Promise<Usuario[]> {
+    return this.usuarioRepository
+      .createQueryBuilder('u')
+      .innerJoinAndSelect('u.cargo', 'c')
+      .select([
+        'u.IDUsuario',
+        'u.usuario',
+        'u.apellido_paterno',
+        'u.apellido_materno',
+        'c.descripcion AS rol',
+        'u.contraseña',
+      ])
+      .where("u.Estado = 'Deshabilitado'")
+      .getMany();
+  }
 }
