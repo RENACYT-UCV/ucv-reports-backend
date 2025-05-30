@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    ParseIntPipe,
   } from '@nestjs/common';
   import { ReportesService } from './reportes.service';
   import { CreateReporteDto } from './dto/create-reporte.dto';
