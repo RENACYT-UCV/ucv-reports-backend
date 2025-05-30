@@ -36,7 +36,7 @@ export class ReportesService {
   async remove(id: number) {
     const reporte = await this.reporteRepository.findOneBy({ id_reporte: id });
     if (!reporte) return null;
-    
+
     return this.reporteRepository.remove(reporte);
   }
 
