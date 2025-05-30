@@ -1,4 +1,12 @@
-import { Controller, Get, Param, ParseIntPipe, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { HardwareService } from './hardware.service';
 import { Hardware } from './entities/hardware.entity';
 
@@ -16,6 +24,13 @@ export class HardwareController {
   @Get()
   async getAllHardware(): Promise<Hardware[]> {
     return this.hardwareService.findAll();
+  }
+
+  @Post()
+  async createHardware(
+    @Body() createHardwareDto: CreateHardwareDto,
+  ): Promise<Hardware> {
+    return this.hardwareService.create(createHardwareDto);
   }
 
   @Patch(':id/habilitar')

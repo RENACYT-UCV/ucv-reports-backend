@@ -6,7 +6,7 @@ import { envConfig } from '../../config/env.config';
 import { UsuariosModule } from '../usuarios/usuarios.module';
 import { PisoModule } from '../piso/piso.module';
 import { ReportesModule } from '../reportes/reportes.module';
-import { HardwareNodule } from '../hardware/hardware.module';
+import { HardwareModule } from '../hardware/hardware.module';
 
 @Module({
   imports: [
