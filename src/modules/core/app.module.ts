@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from '../../config/database.config';
 import { envConfig } from '../../config/env.config';
 import { UsuariosModule } from '../usuarios/usuarios.module';
+import { PisoModule } from '../piso/piso.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
       useFactory: typeOrmConfig,
     }),
     UsuariosModule,
+    PisoModule,
   ],
   controllers: [],
   providers: [],
