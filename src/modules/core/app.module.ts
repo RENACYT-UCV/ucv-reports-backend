@@ -8,6 +8,7 @@ import { PisoModule } from '../piso/piso.module';
 import { ReportesModule } from '../reportes/reportes.module';
 import { HardwareModule } from '../hardware/hardware.module';
 import { PabellonModule } from '../pabellon/pabellon.module';
+import { SalonModule } from '../salon/salon.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PabellonModule } from '../pabellon/pabellon.module';
     ReportesModule,
     HardwareModule,
     PabellonModule,
+    SalonModule,
   ],
   controllers: [],
   providers: [],
