@@ -50,9 +50,11 @@ export class ReportesService {
 
   async desaprobarReporte(id: number, motivo: string): Promise<Reporte> {
     const reporte = await this.reporteRepository.findOne({ where: { id_reporte: id } });
+
     if (!reporte) {
       throw new NotFoundException(`Reporte con ID ${id} no encontrado`);
     }
+
     reporte.estado = 'Desaprobado';
     reporte.Motivo = motivo;
     return this.reporteRepository.save(reporte);
@@ -60,9 +62,11 @@ export class ReportesService {
 
   async obtenerDetallesReporte(id: number): Promise<Reporte> {
     const reporte = await this.reporteRepository.findOne({ where: { id_reporte: id } });
+
     if (!reporte) {
       throw new NotFoundException(`Reporte con ID ${id} no encontrado`);
     }
+
     return reporte;
   }
 }

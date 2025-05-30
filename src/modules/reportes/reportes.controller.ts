@@ -6,7 +6,6 @@ import {
     Patch,
     Param,
     Delete,
-    NotFoundException,
   } from '@nestjs/common';
   import { ReportesService } from './reportes.service';
   import { CreateReporteDto } from './dto/create-reporte.dto';
@@ -47,17 +46,15 @@ import {
   }
 
   @Patch(':id/desaprobar')
-  async desaprobar(@Param('id') id: number, @Body('motivo') motivo: string) {
-    const reporte = await this.reportesService.desaprobarReporte(id, motivo);
-    if (!reporte) {
-      throw new NotFoundException(`Reporte con ID ${id} no encontrado`);
-    }
-    return { message: 'Reporte desaprobado exitosamente', reporte };
+  desaprobar(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('motivo') motivo: string,
+  ) {
+    return this.reportesService.desaprobarReporte(id, motivo);
   }
 
   @Get(':id')
-  async obtenerDetallesReporte(@Param('id') id: number) {
-    const reporte = await this.reportesService.obtenerDetallesReporte(id);
-    return reporte;
+  obtenerDetallesReporte(@Param('id', ParseIntPipe) id: number) {
+    return this.reportesService.obtenerDetallesReporte(id);
   }
   }
