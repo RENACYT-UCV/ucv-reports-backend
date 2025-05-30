@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Reporte } from './entities/reporte.entity';
@@ -48,12 +48,21 @@ export class ReportesService {
     return this.reporteRepository.save(reporte);
   }
 
-  async desaprobarReporte(id: number, motivo: string) {
-    const reporte = await this.reporteRepository.findOneBy({ id_reporte: id });
-    if (!reporte) return null;
-
+  async desaprobarReporte(id: number, motivo: string): Promise<Reporte> {
+    const reporte = await this.reporteRepository.findOne({ where: { id_reporte: id } });
+    if (!reporte) {
+      throw new NotFoundException(`Reporte con ID ${id} no encontrado`);
+    }
     reporte.estado = 'Desaprobado';
     reporte.Motivo = motivo;
     return this.reporteRepository.save(reporte);
+  }
+
+  async obtenerDetallesReporte(id: number): Promise<Reporte> {
+    const reporte = await this.reporteRepository.findOne({ where: { id_reporte: id } });
+    if (!reporte) {
+      throw new NotFoundException(`Reporte con ID ${id} no encontrado`);
+    }
+    return reporte;
   }
 }
