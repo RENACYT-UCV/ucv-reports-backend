@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Hardware } from './entities/hardware.entity';
+import { CreateHardwareDto } from './dto/create-hardware.dto';
 
 @Injectable()
 export class HardwareService {
@@ -45,4 +46,10 @@ export class HardwareService {
   async findAll(): Promise<Hardware[]> {
     return this.hardwareRepository.find();
   }
+
+  async create(createHardwareDto: CreateHardwareDto): Promise<Hardware> {
+    const hardware = this.hardwareRepository.create(createHardwareDto);
+    return this.hardwareRepository.save(hardware);
+  }
 }
+

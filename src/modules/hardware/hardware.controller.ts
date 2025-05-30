@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { HardwareService } from './hardware.service';
 import { Hardware } from './entities/hardware.entity';
+import { CreateHardwareDto } from './dto/create-hardware.dto';
 
 @Controller('hardware')
 export class HardwareController {
