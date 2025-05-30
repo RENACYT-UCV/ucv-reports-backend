@@ -5,6 +5,7 @@ import { typeOrmConfig } from '../../config/database.config';
 import { envConfig } from '../../config/env.config';
 import { UsuariosModule } from '../usuarios/usuarios.module';
 import { PisoModule } from '../piso/piso.module';
+import { ReportesModule } from '../reportes/reportes.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PisoModule } from '../piso/piso.module';
     }),
     UsuariosModule,
     PisoModule,
+    ReportesModule
   ],
   controllers: [],
   providers: [],
