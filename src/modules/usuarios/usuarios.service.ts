@@ -111,7 +111,10 @@ export class UsuariosService {
   }
 
   async findByUsername(usuario: string): Promise<Usuario | undefined> {
-    const user = await this.usuarioRepository.findOne({ where: { usuario } });
+    const user = await this.usuarioRepository.findOne({
+      where: { usuario },
+      relations: ['cargo'], // Load the 'cargo' relation
+    });
     return user || undefined;
   }
 }

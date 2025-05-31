@@ -14,15 +14,21 @@ export class AuthService {
     const user = await this.usersService.findByUsername(usuario);
     if (user && (await bcrypt.compare(pass, user.contraseña))) {
       const { contraseña, ...result } = user;
-      return result;
+      // Assuming user.cargo.descripcion holds the role information
+      return { ...result, role: user.cargo?.descripcion };
     }
     return null;
   }
 
   async login(user: any) {
-    const payload = { username: user.usuario, sub: user.IDUsuario };
+    const payload = {
+      username: user.usuario,
+      sub: user.IDUsuario,
+      role: user.role,
+    };
     return {
       access_token: this.jwtService.sign(payload),
+      role: user.role, // Include role in the response
     };
   }
 }
