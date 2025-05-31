@@ -76,4 +76,9 @@ export class UsuariosController {
   ): Promise<Usuario | undefined> {
     return this.usuariosService.findByUsername(usuario);
   }
+
+  @Get('role/:id_cargo')
+  findByRole(@Param('id_cargo') id_cargo: string): Promise<Usuario[]> {
+    return this.usuariosService.findByRole(+id_cargo);
+  }
 }

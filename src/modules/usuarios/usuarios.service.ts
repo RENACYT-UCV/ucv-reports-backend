@@ -123,4 +123,10 @@ export class UsuariosService {
     });
     return user || undefined;
   }
+
+  async findByRole(id_cargo: number): Promise<Usuario[]> {
+    return this.usuarioRepository.find({
+      where: { id_cargo, Estado: 'Habilitado' },
+    });
+  }
 }
