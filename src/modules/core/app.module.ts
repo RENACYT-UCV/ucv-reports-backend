@@ -10,6 +10,7 @@ import { HardwareModule } from '../hardware/hardware.module';
 import { PabellonModule } from '../pabellon/pabellon.module';
 import { SalonModule } from '../salon/salon.module';
 import { AuthModule } from '../auth/auth.module';
+import { CargoModule } from '../cargo/cargo.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from '../auth/auth.module';
     PabellonModule,
     SalonModule,
     AuthModule,
+    CargoModule,
   ],
   controllers: [],
   providers: [],
