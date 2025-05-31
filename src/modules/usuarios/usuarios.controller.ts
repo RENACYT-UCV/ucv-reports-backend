@@ -64,4 +64,9 @@ export class UsuariosController {
   async obtenerUsuariosEliminados(): Promise<Usuario[]> {
     return this.usuariosService.obtenerUsuariosEliminados();
   }
+
+  @Get('buscar-usuario/:usuario')
+  findByUsername(@Param('usuario') usuario: string): Promise<Usuario | undefined> {
+    return this.usuariosService.findByUsername(usuario);
+  }
 }
