@@ -183,7 +183,7 @@ export class ReportesService {
       )
       .getRawMany();
 
-    return reportes;
+    return reportes || [];
   }
 
   async obtenerReportesResueltosPersonal(id_personal: number): Promise<any[]> {
@@ -203,6 +203,24 @@ export class ReportesService {
       )
       .where("r.estado = 'Resuelto'")
       .andWhere('hrp.id_personal = :id_personal', { id_personal })
+      .orderBy('r.fecha', 'DESC')
+      .getRawMany();
+
+    return reportes || [];
+  }
+
+  async obtenerTodosReportesConUsuario(): Promise<any[]> {
+    const reportes = await this.reporteRepository
+      .createQueryBuilder('r')
+      .select([
+        'r.id_reporte',
+        "CONCAT(r.Pabellon, ', ', r.Piso, ', ', r.Salon) AS lugarDelProblema",
+        'r.fecha',
+        'r.estado AS acciones',
+        "CONCAT(u.nombre, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS usuario",
+      ])
+      .innerJoin('HistorialReportes', 'hr', 'r.id_reporte = hr.reporte_id')
+      .innerJoin('Usuario', 'u', 'hr.usuario_id = u.IDUsuario')
       .orderBy('r.fecha', 'DESC')
       .getRawMany();
 

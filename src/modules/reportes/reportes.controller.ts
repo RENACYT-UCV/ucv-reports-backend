@@ -26,6 +26,16 @@ export class ReportesController {
     return this.reportesService.findAll();
   }
 
+  @Get('aprobados')
+  obtenerReportesAprobados() {
+    return this.reportesService.obtenerReportesAprobados();
+  }
+
+  @Get('todos-con-usuario')
+  obtenerTodosReportesConUsuario() {
+    return this.reportesService.obtenerTodosReportesConUsuario();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reportesService.findOne(+id);
@@ -77,11 +87,6 @@ export class ReportesController {
     @Param('usuario_id', ParseIntPipe) usuario_id: number,
   ) {
     return this.reportesService.obtenerReportesResueltos(usuario_id);
-  }
-
-  @Get('aprobados')
-  obtenerReportesAprobados() {
-    return this.reportesService.obtenerReportesAprobados();
   }
 
   @Get('resueltos-personal/:id_personal')
