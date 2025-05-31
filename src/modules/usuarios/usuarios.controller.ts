@@ -29,6 +29,11 @@ export class UsuariosController {
     return this.usuariosService.findAll();
   }
 
+  @Get('habilitados')
+  findEnabledUsers(): Promise<Usuario[]> {
+    return this.usuariosService.findEnabledUsers();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Usuario> {
     return this.usuariosService.findOne(+id);
@@ -66,7 +71,9 @@ export class UsuariosController {
   }
 
   @Get('buscar-usuario/:usuario')
-  findByUsername(@Param('usuario') usuario: string): Promise<Usuario | undefined> {
+  findByUsername(
+    @Param('usuario') usuario: string,
+  ): Promise<Usuario | undefined> {
     return this.usuariosService.findByUsername(usuario);
   }
 }

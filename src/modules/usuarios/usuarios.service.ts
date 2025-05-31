@@ -54,6 +54,12 @@ export class UsuariosService {
     return this.usuarioRepository.find();
   }
 
+  async findEnabledUsers(): Promise<Usuario[]> {
+    return this.usuarioRepository.find({
+      where: { Estado: 'Habilitado' },
+    });
+  }
+
   async findOne(id: number): Promise<Usuario> {
     const usuario = await this.usuarioRepository.findOne({
       where: { IDUsuario: id, Estado: 'Habilitado' },
