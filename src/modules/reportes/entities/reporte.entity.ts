@@ -25,7 +25,7 @@ export class Reporte {
   @Column({ type: 'date' })
   fecha: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ default: 'Pendiente', type: 'varchar', length: 255 })
   estado: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
