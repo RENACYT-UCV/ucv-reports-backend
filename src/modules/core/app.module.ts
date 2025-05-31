@@ -9,6 +9,7 @@ import { ReportesModule } from '../reportes/reportes.module';
 import { HardwareModule } from '../hardware/hardware.module';
 import { PabellonModule } from '../pabellon/pabellon.module';
 import { SalonModule } from '../salon/salon.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { SalonModule } from '../salon/salon.module';
     HardwareModule,
     PabellonModule,
     SalonModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

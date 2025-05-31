@@ -8,11 +8,13 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards, // Add UseGuards
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
+import { AuthGuard } from '@nestjs/passport'; // Add AuthGuard
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -24,6 +26,7 @@ export class UsuariosController {
     return this.usuariosService.create(createUsuarioDto);
   }
 
+  @UseGuards(AuthGuard('jwt')) // Add this line
   @Get()
   findAll(): Promise<Usuario[]> {
     return this.usuariosService.findAll();

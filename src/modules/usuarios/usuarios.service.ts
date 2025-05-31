@@ -109,4 +109,9 @@ export class UsuariosService {
       .where("u.Estado = 'Deshabilitado'")
       .getMany();
   }
+
+  async findByUsername(usuario: string): Promise<Usuario | undefined> {
+    const user = await this.usuarioRepository.findOne({ where: { usuario } });
+    return user || undefined;
+  }
 }
