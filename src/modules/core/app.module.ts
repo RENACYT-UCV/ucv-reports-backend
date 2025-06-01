@@ -11,7 +11,7 @@ import { PabellonModule } from '../pabellon/pabellon.module';
 import { SalonModule } from '../salon/salon.module';
 import { AuthModule } from '../auth/auth.module';
 import { CargoModule } from '../cargo/cargo.module';
-
+import { HistorialReportesModule } from '../historial_reportes/historial_reportes.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -31,6 +31,7 @@ import { CargoModule } from '../cargo/cargo.module';
     SalonModule,
     AuthModule,
     CargoModule,
+    HistorialReportesModule,
   ],
   controllers: [],
   providers: [],
