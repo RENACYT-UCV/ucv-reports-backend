@@ -262,4 +262,16 @@ export class ReportesService {
       },
     );
   }
+
+  async buscarReportesPorUsuario(usuario: string): Promise<any[]> {
+    const reportes = await this.reporteRepository
+      .createQueryBuilder('reporte')
+      .innerJoin('reporte.usuario', 'usuario') // Asumiendo que hay una relación 'usuario' en la entidad Reporte
+      .where('LOWER(usuario.usuario) LIKE LOWER(:usuario)', {
+        usuario: `%${usuario}%`,
+      })
+      .getMany();
+
+    return reportes;
+  }
 }

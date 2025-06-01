@@ -12,6 +12,7 @@ import { HistorialProductosIngresados } from '../../historial_productos_ingresad
 import { HistorialProductosPersonal } from '../../historial_productos_personal/entities/historial_productos_personal.entity';
 import { HistorialReportes } from '../../historial_reportes/entities/historial_reportes.entity';
 import { HistorialReportePersonal } from '../../historial_reporte_personal/entities/historial_reporte_personal.entity';
+import { Reporte } from '../../reportes/entities/reporte.entity'; // Importar la entidad Reporte
 
 @Entity('usuarios')
 export class Usuario {
@@ -63,4 +64,7 @@ export class Usuario {
 
   @OneToMany(() => HistorialReportePersonal, (historial) => historial.personal)
   historialReportePersonal: HistorialReportePersonal[];
+
+  @OneToMany(() => Reporte, (reporte) => reporte.usuario) // Relación OneToMany con Reporte
+  reportes: Reporte[];
 }

@@ -106,4 +106,9 @@ export class ReportesController {
       message: 'Reporte tomado correctamente y registrado en historial.',
     };
   }
+
+  @Get('buscar-usuario/:usuario')
+  async buscarReportesPorUsuario(@Param('usuario') usuario: string) {
+    return this.reportesService.buscarReportesPorUsuario(usuario);
+  }
 }
