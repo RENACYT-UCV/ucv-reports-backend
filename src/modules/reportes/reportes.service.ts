@@ -225,7 +225,6 @@ export class ReportesService {
 
       .getRawMany();
 
-    console.log('Reportes obtenidos:', reportes);
     return reportes.map((reporte) => ({
       historial_id: reporte.historial_id,
       id_reporte: reporte.r_id_reporte,
