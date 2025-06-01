@@ -62,12 +62,10 @@ export class UsuariosService {
 
   async findOne(id: number): Promise<Usuario> {
     const usuario = await this.usuarioRepository.findOne({
-      where: { IDUsuario: id, Estado: 'Habilitado' },
+      where: { IDUsuario: id },
     });
     if (!usuario) {
-      throw new NotFoundException(
-        `Usuario con ID ${id} no encontrado o no habilitado`,
-      );
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
     }
     return usuario;
   }
@@ -89,13 +87,23 @@ export class UsuariosService {
   }
 
   async disable(id: number): Promise<Usuario> {
-    const usuario = await this.findOne(id);
+    const usuario = await this.usuarioRepository.findOne({
+      where: { IDUsuario: id },
+    });
+    if (!usuario) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
     usuario.Estado = 'Deshabilitado';
     return this.usuarioRepository.save(usuario);
   }
 
   async enable(id: number): Promise<Usuario> {
-    const usuario = await this.findOne(id);
+    const usuario = await this.usuarioRepository.findOne({
+      where: { IDUsuario: id },
+    });
+    if (!usuario) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
     usuario.Estado = 'Habilitado';
     return this.usuarioRepository.save(usuario);
   }
