@@ -101,19 +101,24 @@ export class UsuariosService {
   }
 
   async obtenerUsuariosEliminados(): Promise<Usuario[]> {
-    return this.usuarioRepository
-      .createQueryBuilder('u')
-      .innerJoinAndSelect('u.cargo', 'c')
-      .select([
-        'u.IDUsuario',
-        'u.usuario',
-        'u.apellido_paterno',
-        'u.apellido_materno',
-        'c.descripcion AS rol',
-        'u.contraseña',
-      ])
-      .where("u.Estado = 'Deshabilitado'")
-      .getMany();
+    try {
+      return await this.usuarioRepository
+        .createQueryBuilder('u')
+        .innerJoinAndSelect('u.cargo', 'c')
+        .select([
+          'u.IDUsuario',
+          'u.usuario',
+          'u.apellido_paterno',
+          'u.apellido_materno',
+          'c.descripcion AS rol',
+          'u.contraseña',
+        ])
+        .where("u.Estado = 'Deshabilitado'")
+        .getMany();
+    } catch (error) {
+      console.error('Error al obtener usuarios eliminados:', error);
+      throw error; // Re-throw the error after logging
+    }
   }
 
   async findByUsername(usuario: string): Promise<Usuario | undefined> {
