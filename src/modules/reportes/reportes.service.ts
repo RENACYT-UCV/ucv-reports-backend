@@ -210,21 +210,29 @@ export class ReportesService {
   }
 
   async obtenerTodosReportesConUsuario(): Promise<any[]> {
-    const reportes = await this.reporteRepository
-      .createQueryBuilder('r')
+    const reportes = await this.historialReportesRepository
+      .createQueryBuilder('hr')
       .select([
+        'hr.id AS historial_id',
         'r.id_reporte',
-        "CONCAT(r.Pabellon, ', ', r.Piso, ', ', r.Salon) AS lugarDelProblema",
+        'u.usuario',
+        "CONCAT(r.Pabellon, ' ', r.Piso, ' ', r.Salon) AS lugar_problema",
         'r.fecha',
-        'r.estado AS acciones',
-        "CONCAT(u.nombre, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS usuario",
+        'r.estado',
       ])
-      .innerJoin('HistorialReportes', 'hr', 'r.id_reporte = hr.reporte_id')
-      .innerJoin('Usuario', 'u', 'hr.usuario_id = u.IDUsuario')
-      .orderBy('r.fecha', 'DESC')
+      .innerJoin('hr.reporte', 'r')
+      .innerJoin('hr.usuario', 'u')
+      .where("r.estado IN ('Pendiente', 'Tomado')")
       .getRawMany();
 
-    return reportes;
+    return reportes.map((reporte) => ({
+      historial_id: reporte.historial_id,
+      id_reporte: reporte.r_id_reporte,
+      usuario: reporte.u_usuario,
+      lugar_problema: reporte.lugar_problema,
+      fecha: reporte.r_fecha,
+      estado: reporte.r_estado,
+    }));
   }
 
   async tomarReporte(id_reporte: number, id_personal: number): Promise<void> {
