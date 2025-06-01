@@ -5,10 +5,12 @@ import {
   UseGuards,
   Request,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginUserDto } from './dto/login-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -40,6 +42,19 @@ export class AuthController {
       return { success: true, userId: result.userId };
     } else {
       return { success: false };
+    }
+  }
+
+  @Post('change-password')
+  async changePassword(@Body() changePasswordDto: ChangePasswordDto) {
+    const result = await this.authService.changePassword(
+      changePasswordDto.userId,
+      changePasswordDto.newPassword,
+    );
+    if (result.success) {
+      return { message: 'Contraseña actualizada exitosamente' };
+    } else {
+      throw new BadRequestException(result.message);
     }
   }
 }

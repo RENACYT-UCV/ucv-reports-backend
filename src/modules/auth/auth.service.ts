@@ -53,4 +53,17 @@ export class AuthService {
       return { success: false };
     }
   }
+
+  async changePassword(userId: number, newPassword: string) {
+    const user = await this.usersService.findOne(userId);
+    if (!user) {
+      return { success: false, message: 'Usuario no encontrado' };
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.contraseña = hashedPassword;
+
+    await this.usersService.update(userId, user);
+    return { success: true };
+  }
 }
