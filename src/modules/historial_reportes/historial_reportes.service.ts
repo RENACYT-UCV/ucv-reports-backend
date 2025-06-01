@@ -51,4 +51,34 @@ export class HistorialReportesService {
 
     return reportes;
   }
+
+  async aprobarODesaprobarHistorial(
+    id: number,
+    estado: string,
+    motivo?: string,
+  ): Promise<HistorialReportes> {
+    const historial = await this.historialReportesRepository.findOne({
+      where: { id },
+      relations: ['reporte'],
+    });
+
+    if (!historial) {
+      throw new NotFoundException(
+        `Historial de reporte con ID ${id} no encontrado`,
+      );
+    }
+
+    if (!historial.reporte) {
+      throw new NotFoundException(
+        `Reporte asociado al historial con ID ${id} no encontrado`,
+      );
+    }
+
+    historial.reporte.estado = estado;
+    if (motivo) {
+      historial.reporte.Motivo = motivo;
+    }
+    await this.reporteRepository.save(historial.reporte);
+    return historial;
+  }
 }

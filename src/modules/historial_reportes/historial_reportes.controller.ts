@@ -1,4 +1,11 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Body,
+} from '@nestjs/common';
 import { HistorialReportesService } from './historial_reportes.service';
 import { HistorialReportes } from './entities/historial_reportes.entity';
 
@@ -18,5 +25,18 @@ export class HistorialReportesController {
   @Get('resueltos-desaprobados')
   async obtenerReportesResueltosYDesaprobados(): Promise<any[]> {
     return this.historialReportesService.obtenerReportesResueltosYDesaprobados();
+  }
+
+  @Patch(':id/estado')
+  async aprobarODesaprobarHistorial(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('estado') estado: string,
+    @Body('motivo') motivo?: string,
+  ): Promise<HistorialReportes> {
+    return this.historialReportesService.aprobarODesaprobarHistorial(
+      id,
+      estado,
+      motivo,
+    );
   }
 }
