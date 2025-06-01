@@ -222,9 +222,10 @@ export class ReportesService {
       ])
       .innerJoin('hr.reporte', 'r')
       .innerJoin('hr.usuario', 'u')
-      .where("r.estado IN ('Pendiente', 'Tomado')")
+
       .getRawMany();
 
+    console.log('Reportes obtenidos:', reportes);
     return reportes.map((reporte) => ({
       historial_id: reporte.historial_id,
       id_reporte: reporte.r_id_reporte,
