@@ -34,6 +34,11 @@ export class UsuariosController {
     return this.usuariosService.findEnabledUsers();
   }
 
+  @Get('eliminados')
+  async obtenerUsuariosEliminados(): Promise<Usuario[]> {
+    return this.usuariosService.obtenerUsuariosEliminados();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Usuario> {
     return this.usuariosService.findOne(+id);
@@ -63,11 +68,6 @@ export class UsuariosController {
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string): Promise<void> {
     return this.usuariosService.remove(+id);
-  }
-
-  @Get('eliminados')
-  async obtenerUsuariosEliminados(): Promise<Usuario[]> {
-    return this.usuariosService.obtenerUsuariosEliminados();
   }
 
   @Get('buscar-usuario/:usuario')
