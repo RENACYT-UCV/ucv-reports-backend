@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { VerifyUserDto } from './dto/verify-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,17 +20,6 @@ export class AuthService {
     return null;
   }
 
-  async verifyUserByPersonalData(verifyUserDto: VerifyUserDto): Promise<any> {
-    const { usuario, nombre, apellido_paterno, apellido_materno } =
-      verifyUserDto;
-    return this.usersService.findByPersonalData(
-      usuario,
-      nombre,
-      apellido_paterno,
-      apellido_materno,
-    );
-  }
-
   async login(user: any) {
     const payload = {
       username: user.usuario,
@@ -42,5 +30,27 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
       role: user.role, // Include role in the response
     };
+  }
+
+  async verificarDatosRecuperacion({
+    usuario,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+  }) {
+    // Buscar usuario que coincida exactamente con todos los campos
+    const users = await this.usersService.getUsuarioRepository().find({
+      where: {
+        usuario,
+        nombre,
+        apellido_paterno,
+        apellido_materno,
+      },
+    });
+    if (users.length === 1) {
+      return { success: true, userId: users[0].IDUsuario };
+    } else {
+      return { success: false };
+    }
   }
 }

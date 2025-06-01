@@ -9,7 +9,6 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginUserDto } from './dto/login-user.dto';
-import { VerifyUserDto } from './dto/verify-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -28,20 +27,19 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('verify-user')
-  async verifyUser(@Body() verifyUserDto: VerifyUserDto) {
-    const user = await this.authService.verifyUserByPersonalData(verifyUserDto);
-    if (!user) {
-      throw new UnauthorizedException(
-        'No se encontró un usuario con esos datos',
-      );
-    }
-    return { exists: true, id: user.IDUsuario };
-  }
-
-  @UseGuards(AuthGuard('jwt'))
   @Post('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Post('verificar-datos-recuperacion')
+  async verificarDatosRecuperacion(@Body() body) {
+    // body: { usuario, nombre, apellido_paterno, apellido_materno }
+    const result = await this.authService.verificarDatosRecuperacion(body);
+    if (result.success) {
+      return { success: true, userId: result.userId };
+    } else {
+      return { success: false };
+    }
   }
 }
