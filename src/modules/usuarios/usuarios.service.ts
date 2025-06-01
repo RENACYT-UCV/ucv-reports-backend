@@ -126,4 +126,20 @@ export class UsuariosService {
       where: { id_cargo, Estado: 'Habilitado' },
     });
   }
+  async findByPersonalData(
+    usuario: string,
+    nombre: string,
+    apellido_paterno: string,
+    apellido_materno: string,
+  ): Promise<Usuario | undefined> {
+    return this.usuarioRepository.findOne({
+      where: {
+        usuario,
+        nombre,
+        apellido_paterno,
+        apellido_materno,
+        Estado: 'Habilitado',
+      },
+    });
+  }
 }

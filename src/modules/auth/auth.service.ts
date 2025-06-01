@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { VerifyUserDto } from './dto/verify-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,17 @@ export class AuthService {
       return { ...result, role: user.cargo?.descripcion };
     }
     return null;
+  }
+
+  async verifyUserByPersonalData(verifyUserDto: VerifyUserDto): Promise<any> {
+    const { usuario, nombre, apellido_paterno, apellido_materno } =
+      verifyUserDto;
+    return this.usersService.findByPersonalData(
+      usuario,
+      nombre,
+      apellido_paterno,
+      apellido_materno,
+    );
   }
 
   async login(user: any) {
