@@ -108,6 +108,7 @@ export class ReportesService {
         'r.Piso',
         'r.Salon',
         'r.Articulos',
+        'r.googleDriveFileId',
       ])
       .where('r.id_reporte = :id_reporte', { id_reporte })
       .getRawOne();
@@ -127,6 +128,7 @@ export class ReportesService {
       Piso: reporte.r_Piso,
       Salon: reporte.r_Salon,
       Articulos: reporte.r_Articulos,
+      googleDriveFileId: reporte.r_googleDriveFileId,
     };
   }
 
