@@ -75,6 +75,12 @@ export class UsuariosService {
     updateUsuarioDto: UpdateUsuarioDto,
   ): Promise<Usuario> {
     const usuario = await this.findOne(id);
+    if (updateUsuarioDto.contraseña) {
+      updateUsuarioDto.contraseña = await bcrypt.hash(
+        updateUsuarioDto.contraseña,
+        10,
+      );
+    }
     this.usuarioRepository.merge(usuario, updateUsuarioDto);
     return this.usuarioRepository.save(usuario);
   }
