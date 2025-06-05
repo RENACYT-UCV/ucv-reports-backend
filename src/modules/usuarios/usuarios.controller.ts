@@ -77,6 +77,11 @@ export class UsuariosController {
     return this.usuariosService.findByUsername(usuario);
   }
 
+  @Get('buscar-parcial/:usuario')
+  findByPartialUsername(@Param('usuario') usuario: string): Promise<Usuario[]> {
+    return this.usuariosService.findByPartialUsername(usuario);
+  }
+
   @Get('role/:id_cargo')
   findByRole(@Param('id_cargo') id_cargo: string): Promise<Usuario[]> {
     return this.usuariosService.findByRole(+id_cargo);

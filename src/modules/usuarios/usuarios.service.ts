@@ -4,7 +4,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -130,6 +130,13 @@ export class UsuariosService {
   async findByRole(id_cargo: number): Promise<Usuario[]> {
     return this.usuarioRepository.find({
       where: { id_cargo, Estado: 'Habilitado' },
+    });
+  }
+
+  async findByPartialUsername(usuario: string): Promise<Usuario[]> {
+    return this.usuarioRepository.find({
+      where: { usuario: Like(`%${usuario}%`) },
+      relations: ['cargo'],
     });
   }
 
