@@ -12,6 +12,7 @@ import { SalonModule } from '../salon/salon.module';
 import { AuthModule } from '../auth/auth.module';
 import { CargoModule } from '../cargo/cargo.module';
 import { HistorialReportesModule } from '../historial_reportes/historial_reportes.module';
+import { GoogleDriveModule } from '../google-drive/google-drive.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,6 +33,7 @@ import { HistorialReportesModule } from '../historial_reportes/historial_reporte
     AuthModule,
     CargoModule,
     HistorialReportesModule,
+    GoogleDriveModule,
   ],
   controllers: [],
   providers: [],

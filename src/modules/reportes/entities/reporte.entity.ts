@@ -47,6 +47,9 @@ export class Reporte {
   @Column({ type: 'varchar', length: 255, nullable: true })
   Motivo: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  googleDriveFileId: string;
+
   @ManyToOne(() => Usuario, (usuario) => usuario.reportes) // Relación ManyToOne con Usuario
   usuario: Usuario;
 
