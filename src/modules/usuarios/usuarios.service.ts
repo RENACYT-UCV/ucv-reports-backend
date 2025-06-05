@@ -4,7 +4,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -119,12 +119,11 @@ export class UsuariosService {
       where: { Estado: 'Deshabilitado' },
     });
   }
-  async findByUsername(usuario: string): Promise<Usuario | undefined> {
-    const user = await this.usuarioRepository.findOne({
-      where: { usuario },
-      relations: ['cargo'], // Load the 'cargo' relation
+  async findByUsername(usuario: string): Promise<Usuario[]> {
+    return this.usuarioRepository.find({
+      where: { usuario: ILike(`${usuario}%`) }, // empieza con
+      relations: ['cargo'], // si necesitas la relación 'cargo'
     });
-    return user || undefined;
   }
 
   async findByRole(id_cargo: number): Promise<Usuario[]> {
