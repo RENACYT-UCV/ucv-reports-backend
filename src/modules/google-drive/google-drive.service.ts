@@ -10,7 +10,13 @@ export class GoogleDriveService {
 
   constructor(private configService: ConfigService) {
     const auth = new google.auth.GoogleAuth({
-      keyFile: this.configService.get<string>('GOOGLE_DRIVE_KEY_FILE'),
+      credentials: {
+        client_email:
+          this.configService.get<string>('GOOGLE_CLIENT_EMAIL') || '',
+        private_key: (
+          this.configService.get<string>('GOOGLE_PRIVATE_KEY') || ''
+        ).replace(/\\n/g, '\n'),
+      },
       scopes: ['https://www.googleapis.com/auth/drive'],
     });
     this.drive = google.drive({ version: 'v3', auth });
