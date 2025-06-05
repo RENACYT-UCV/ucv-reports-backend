@@ -81,4 +81,16 @@ export class HistorialReportesService {
     await this.reporteRepository.save(historial.reporte);
     return historial;
   }
+
+  async createHistorialReporte(
+    usuario_id: number,
+    reporte_id: number,
+  ): Promise<HistorialReportes> {
+    const historialReporte = this.historialReportesRepository.create({
+      usuario_id,
+      reporte_id,
+      fecha: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+    });
+    return this.historialReportesRepository.save(historialReporte);
+  }
 }

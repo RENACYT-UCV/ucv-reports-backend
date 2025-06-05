@@ -5,6 +5,7 @@ import {
   ParseIntPipe,
   Patch,
   Body,
+  Post,
 } from '@nestjs/common';
 import { HistorialReportesService } from './historial_reportes.service';
 import { HistorialReportes } from './entities/historial_reportes.entity';
@@ -37,6 +38,17 @@ export class HistorialReportesController {
       id,
       estado,
       motivo,
+    );
+  }
+
+  @Post('/add')
+  async createHistorialReporte(
+    @Body('usuario_id', ParseIntPipe) usuario_id: number,
+    @Body('reporte_id', ParseIntPipe) reporte_id: number,
+  ): Promise<HistorialReportes> {
+    return this.historialReportesService.createHistorialReporte(
+      usuario_id,
+      reporte_id,
     );
   }
 }
