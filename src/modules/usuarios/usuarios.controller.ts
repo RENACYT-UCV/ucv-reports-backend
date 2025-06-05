@@ -71,7 +71,9 @@ export class UsuariosController {
   }
 
   @Get('buscar-usuario/:usuario')
-  findByUsername(@Param('usuario') usuario: string): Promise<Usuario[]> {
+  findByUsername(
+    @Param('usuario') usuario: string,
+  ): Promise<Usuario | undefined> {
     return this.usuariosService.findByUsername(usuario);
   }
 
