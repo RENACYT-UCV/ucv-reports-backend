@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateUsuarioDto } from '../usuarios/dto/update-usuario.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -60,10 +61,10 @@ export class AuthService {
       return { success: false, message: 'Usuario no encontrado' };
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.contraseña = hashedPassword;
-
-    await this.usersService.update(userId, user);
+    const updateDto: UpdateUsuarioDto = {
+      contraseña: newPassword,
+    };
+    await this.usersService.update(userId, updateDto);
     return { success: true };
   }
 }
