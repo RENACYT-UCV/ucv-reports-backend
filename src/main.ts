@@ -10,6 +10,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      whitelist: true, // Add this line to strip away non-whitelisted properties
+      forbidNonWhitelisted: true, // Add this line to throw an error if non-whitelisted properties are present
     }),
   );
 

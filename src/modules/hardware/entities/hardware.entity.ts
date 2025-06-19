@@ -21,7 +21,7 @@ export class Hardware {
   @Column({ type: 'varchar', length: 255 })
   nombre: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ default: 'Habilitado', type: 'varchar', length: 255 })
   Estado: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
