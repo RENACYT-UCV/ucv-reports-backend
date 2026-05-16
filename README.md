@@ -244,12 +244,12 @@ Alojada en **Supabase** (PostgreSQL). TypeORM sincroniza el esquema automáticam
 
 ## Variables de entorno
 
-Configuradas en `docker-compose.yml`. Para producción cambiar:
+Crea un archivo `.env` en `ucv-reports-backend/` con estos valores:
 
-| Variable | Descripción |
-|---|---|
-| `DATABASE_URL` | Connection string de Supabase PostgreSQL |
-| `JWT_SECRET` | Secreto para firmar tokens JWT — usar `openssl rand -base64 48` |
+```env
+DATABASE_URL=postgresql://postgres.hfqoomymwqchhbclupku:6udzchjFFKh5svq0@aws-1-us-east-2.pooler.supabase.com:5432/postgres
+JWT_SECRET=ucv_reports_jwt_secret_change_in_production
+```
 
 ## Flujo del sistema
 
