@@ -15,6 +15,9 @@ export const typeOrmConfig: () => TypeOrmModuleOptions = () => ({
   url: process.env.DATABASE_URL,
   entities: [PATH_ENTITIES],
   synchronize: true,
+  ssl: process.env.DATABASE_URL?.includes('supabase.co')
+    ? { rejectUnauthorized: false }
+    : false,
 });
 
 export const typeOrmModule = () => {

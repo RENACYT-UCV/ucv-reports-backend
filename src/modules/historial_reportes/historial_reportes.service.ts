@@ -27,6 +27,7 @@ export class HistorialReportesService {
         'r.Piso',
         'r.Salon',
         'r.descripcion',
+        'r.estado',
         'r.Motivo',
       ])
       .getMany();

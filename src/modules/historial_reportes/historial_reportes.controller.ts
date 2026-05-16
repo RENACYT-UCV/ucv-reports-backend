@@ -16,16 +16,16 @@ export class HistorialReportesController {
     private readonly historialReportesService: HistorialReportesService,
   ) {}
 
+  @Get('resueltos-desaprobados')
+  async obtenerReportesResueltosYDesaprobados(): Promise<any[]> {
+    return this.historialReportesService.obtenerReportesResueltosYDesaprobados();
+  }
+
   @Get(':idUsuario')
   async obtenerHistorial(
     @Param('idUsuario', ParseIntPipe) idUsuario: number,
   ): Promise<HistorialReportes[]> {
     return this.historialReportesService.obtenerHistorial(idUsuario);
-  }
-
-  @Get('resueltos-desaprobados')
-  async obtenerReportesResueltosYDesaprobados(): Promise<any[]> {
-    return this.historialReportesService.obtenerReportesResueltosYDesaprobados();
   }
 
   @Patch(':id/estado')

@@ -1,3 +1,3 @@
 export const jwtConstants = {
-  secret: 'yourSecretKey',
+  secret: process.env.JWT_SECRET || 'ucv_reports_secret_key_dev',
 };

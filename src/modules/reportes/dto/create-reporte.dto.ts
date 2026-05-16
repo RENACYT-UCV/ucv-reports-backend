@@ -1,4 +1,4 @@
-import { IsString, IsDateString, IsOptional } from 'class-validator';
+import { IsString, IsDateString, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateReporteDto {
   @IsOptional()
@@ -24,8 +24,9 @@ export class CreateReporteDto {
   @IsDateString()
   fecha: string;
 
+  @IsOptional()
   @IsString()
-  estado: string;
+  estado?: string;
 
   @IsOptional()
   @IsString()
@@ -42,4 +43,12 @@ export class CreateReporteDto {
   @IsOptional()
   @IsString()
   Motivo?: string;
+
+  @IsOptional()
+  @IsString()
+  googleDriveFileId?: string;
+
+  @IsOptional()
+  @IsNumber()
+  usuarioId?: number;
 }

@@ -72,11 +72,6 @@ export class ReportesController {
     return this.reportesService.marcarComoResuelto(id, motivo);
   }
 
-  @Get(':id')
-  obtenerDetallesReporte(@Param('id', ParseIntPipe) id: number) {
-    return this.reportesService.obtenerDetallesReporte(id);
-  }
-
   @Get('detalle/:id_reporte')
   obtenerReportePorId(@Param('id_reporte', ParseIntPipe) id_reporte: number) {
     return this.reportesService.obtenerReportePorId(id_reporte);

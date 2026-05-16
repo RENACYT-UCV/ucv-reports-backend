@@ -1,98 +1,270 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# UCVReports
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Sistema de gestión de reportes de fallas de equipos e infraestructura de la Universidad Central de Venezuela (UCV). Permite a docentes y personal técnico crear reportes de incidencias, asignarlos, gestionarlos y llevar un historial de resolución.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologías
 
-## Description
+| Capa | Tecnología |
+|---|---|
+| API | NestJS + TypeORM |
+| Frontend | HTML/CSS/JS estático servido con Express |
+| Base de datos | PostgreSQL (Supabase) |
+| Autenticación | JWT Bearer (Passport) |
+| Contenedores | Docker Compose |
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Acceso al sistema
 
-## Project setup
+| Servicio | URL |
+|---|---|
+| Frontend | http://localhost:3001 |
+| API | http://localhost:8001 |
 
-```bash
-$ npm install
-```
+### Credenciales de prueba
 
-## Compile and run the project
+| Campo | Valor |
+|---|---|
+| usuario | `adminus` |
+| contraseña | `Admin1234!` |
+| cargo | Administrador |
+
+> El nombre de usuario (`usuario`) es generado automáticamente por el sistema al registrar un usuario. El formato es: primeras letras del nombre + apellido paterno abreviado.
+
+## Levantar el sistema
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker compose up -d
 ```
 
-## Run tests
+Para reconstruir imágenes tras cambios de código:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker compose up --build -d
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Para detener y eliminar volúmenes (reinicio limpio de BD):
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+docker compose down -v
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+> **Nota:** Si UCVDeportes también está corriendo, UCVReports usa los puertos **8001** (API) y **3001** (frontend) para evitar conflictos.
 
-## Resources
+## Crear usuario inicial (si se reinicia la BD)
 
-Check out a few resources that may come in handy when working with NestJS:
+Al hacer `docker compose down -v` la BD se vacía. Para crear el primer usuario:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+# 1. Crear un cargo
+curl -X POST http://localhost:8001/cargos \
+  -H "Content-Type: application/json" \
+  -d '{"descripcion":"Administrador"}'
 
-## Support
+# 2. Crear usuario admin
+curl -X POST http://localhost:8001/usuarios/add \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Admin",
+    "apellido_paterno": "UCVReports",
+    "apellido_materno": "Sistema",
+    "contraseña": "Admin1234!",
+    "id_cargo": 1
+  }'
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Estructura del proyecto
 
-## Stay in touch
+```
+UCVReports/
+├── ucv-reports-backend/               # NestJS API
+│   └── src/
+│       ├── config/
+│       │   └── database.config.ts     # Config TypeORM + Supabase SSL
+│       └── modules/
+│           ├── auth/                  # Login, JWT, recuperación de cuenta
+│           ├── usuarios/              # CRUD usuarios
+│           ├── cargo/                 # Roles/cargos del sistema
+│           ├── reportes/              # Reportes de fallas
+│           ├── historial_reportes/    # Historial de resolución
+│           ├── hardware/              # Inventario de equipos
+│           ├── pabellon/              # Pabellones de la universidad
+│           ├── piso/                  # Pisos por pabellón
+│           ├── salon/                 # Salones por piso
+│           └── google-drive/          # Subida de evidencia fotográfica
+├── ucv-reports-frontend/              # Frontend estático
+│   ├── HTML/
+│   │   ├── auth/
+│   │   │   ├── login.html             # Inicio de sesión
+│   │   │   ├── register.html          # Registro de usuario
+│   │   │   ├── recuperacion.html      # Solicitar recuperación
+│   │   │   └── recuperacion_cuenta.html # Código OTP + nueva contraseña
+│   │   ├── index.html                 # Panel principal (dashboard)
+│   │   ├── reporte_enviar/            # Crear nuevo reporte
+│   │   ├── reportes_ver/              # Ver reportes asignados al técnico
+│   │   ├── reportes_gestion/          # Gestión de reportes (admin)
+│   │   └── reportes_globales/         # Vista global de todos los reportes
+│   └── server.js                      # Servidor Express estático
+└── docker-compose.yml
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## API — Endpoints
 
-## License
+Todos los endpoints (excepto login, register y recuperación) requieren header:
+```
+Authorization: Bearer {jwt_token}
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Autenticación
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| POST | `/auth/login` | Iniciar sesión → devuelve JWT | No |
+| POST | `/auth/profile` | Verificar token y obtener perfil | Sí |
+| POST | `/auth/verificar-datos-recuperacion` | Verificar datos para recuperar cuenta | No |
+| POST | `/auth/change-password` | Cambiar contraseña | No |
+
+**Body de login:**
+```json
+{
+  "usuario": "adminus",
+  "contraseña": "Admin1234!"
+}
+```
+
+### Usuarios
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| POST | `/usuarios/add` | Registrar usuario | No |
+| GET | `/usuarios` | Listar todos los usuarios | Sí |
+| GET | `/usuarios/habilitados` | Listar usuarios activos | Sí |
+| GET | `/usuarios/eliminados` | Listar usuarios desactivados | Sí |
+| GET | `/usuarios/:id` | Ver usuario por ID | Sí |
+| PUT | `/usuarios/:id` | Actualizar usuario | Sí |
+| PUT | `/usuarios/:id/disable` | Deshabilitar usuario | Sí |
+| PUT | `/usuarios/:id/enable` | Habilitar usuario | Sí |
+| DELETE | `/usuarios/:id` | Eliminar usuario | Sí |
+| GET | `/usuarios/buscar-usuario/:usuario` | Buscar por nombre de usuario exacto | Sí |
+| GET | `/usuarios/buscar-parcial/:usuario` | Buscar por nombre parcial | Sí |
+| GET | `/usuarios/role/:id_cargo` | Listar usuarios por cargo | Sí |
+
+### Cargos (Roles)
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| GET | `/cargos` | Listar todos los cargos | No |
+| GET | `/cargos/:id` | Ver cargo por ID | No |
+| POST | `/cargos` | Crear cargo | Sí |
+| PATCH | `/cargos/:id` | Actualizar cargo | Sí |
+| DELETE | `/cargos/:id` | Eliminar cargo | Sí |
+
+### Reportes
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| POST | `/reportes` | Crear reporte de falla | Sí |
+| GET | `/reportes` | Listar reportes del usuario | Sí |
+| GET | `/reportes/aprobados` | Listar reportes aprobados | Sí |
+| GET | `/reportes/todos-con-usuario` | Todos los reportes con datos de usuario | Sí |
+| GET | `/reportes/:id` | Ver reporte por ID | Sí |
+| PATCH | `/reportes/:id` | Actualizar reporte | Sí |
+| DELETE | `/reportes/:id` | Eliminar reporte | Sí |
+| PATCH | `/reportes/:id/aprobar` | Aprobar reporte | Sí |
+| PATCH | `/reportes/:id/desaprobar` | Desaprobar reporte | Sí |
+| PATCH | `/reportes/:id/resolver` | Marcar reporte como resuelto | Sí |
+| GET | `/reportes/detalle/:id_reporte` | Detalle completo del reporte | Sí |
+| GET | `/reportes/resueltos/:usuario_id` | Reportes resueltos por usuario | Sí |
+| GET | `/reportes/resueltos-personal/:id_personal` | Reportes resueltos por técnico | Sí |
+| POST | `/reportes/tomar-reporte` | Asignar reporte a técnico | Sí |
+| GET | `/reportes/buscar-usuario/:usuario` | Reportes de un usuario | Sí |
+
+### Historial de Reportes
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| POST | `/historial-reportes/add` | Agregar entrada al historial | Sí |
+| GET | `/historial-reportes/:idUsuario` | Historial de un usuario | Sí |
+| PATCH | `/historial-reportes/:id/estado` | Cambiar estado (Pendiente/Tomado) | Sí |
+| GET | `/historial-reportes/resueltos-desaprobados` | Reportes resueltos y desaprobados | Sí |
+
+### Hardware (Inventario de equipos)
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| GET | `/hardware` | Listar equipos | Sí |
+| POST | `/hardware` | Registrar equipo | Sí |
+| GET | `/hardware/:id` | Ver equipo | Sí |
+| POST | `/hardware/multiple` | Registrar múltiples equipos | Sí |
+| GET | `/hardware/entrada-productos` | Ver entradas de productos | Sí |
+| PATCH | `/hardware/:id/habilitar` | Habilitar equipo | Sí |
+| PATCH | `/hardware/:id/descomponer` | Marcar equipo como dañado | Sí |
+| PUT | `/hardware/:id/ubicacion` | Actualizar ubicación del equipo | Sí |
+| GET | `/hardware/latest-code/:id_articulo` | Último código de artículo | Sí |
+| GET | `/hardware/descompuesto/:idArticuloTipo` | Equipos dañados por tipo | Sí |
+
+### Infraestructura (Pabellones, Pisos, Salones)
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| GET | `/pabellon` | Listar pabellones | Sí |
+| POST | `/pabellon` | Crear pabellón | Sí |
+| GET | `/pabellon/:id` | Ver pabellón | Sí |
+| PUT | `/pabellon/:id` | Actualizar pabellón | Sí |
+| DELETE | `/pabellon/:id` | Eliminar pabellón | Sí |
+| GET | `/piso` | Listar pisos | Sí |
+| POST | `/piso` | Crear piso | Sí |
+| GET | `/piso/:id` | Ver piso | Sí |
+| PUT | `/piso/:id` | Actualizar piso | Sí |
+| DELETE | `/piso/:id` | Eliminar piso | Sí |
+| GET | `/piso/byPabellon/:idPabellon` | Pisos de un pabellón | Sí |
+| GET | `/salon` | Listar salones | Sí |
+| GET | `/salon/piso/:id_piso` | Salones de un piso | Sí |
+
+### Google Drive (Evidencia fotográfica)
+
+| Método | Endpoint | Descripción | Auth |
+|---|---|---|---|
+| POST | `/google-drive/reportes/:id/upload-evidencia` | Subir imagen de evidencia a Drive | Sí |
+
+## Base de datos
+
+Alojada en **Supabase** (PostgreSQL). TypeORM sincroniza el esquema automáticamente al iniciar (`synchronize: true`).
+
+### Tablas principales
+
+| Tabla | Descripción |
+|---|---|
+| `cargo` | Cargos/roles del sistema |
+| `usuario` | Usuarios del sistema |
+| `reporte` | Reportes de fallas |
+| `historial_reporte` | Historial de estados de reportes |
+| `hardware` | Inventario de equipos |
+| `pabellon` | Pabellones universitarios |
+| `piso` | Pisos de cada pabellón |
+| `salon` | Salones de cada piso |
+
+## Variables de entorno
+
+Configuradas en `docker-compose.yml`. Para producción cambiar:
+
+| Variable | Descripción |
+|---|---|
+| `DATABASE_URL` | Connection string de Supabase PostgreSQL |
+| `JWT_SECRET` | Secreto para firmar tokens JWT — usar `openssl rand -base64 48` |
+
+## Flujo del sistema
+
+```
+Docente/Usuario
+    │
+    ├─→ Crea reporte de falla (salón, equipo, descripción)
+    │       └─→ Estado: Pendiente
+    │
+    ├─→ Administrador aprueba el reporte
+    │       └─→ Estado: Aprobado
+    │
+    ├─→ Técnico toma el reporte
+    │       └─→ Estado: En progreso (Tomado en historial)
+    │
+    └─→ Técnico sube evidencia y marca como resuelto
+            └─→ Estado: Resuelto
+```
